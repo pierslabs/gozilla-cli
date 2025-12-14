@@ -28,6 +28,8 @@ go.work
 .DS_Store
 Thumbs.db
 
+# Note: .github/images/ is tracked for README assets
+
 # Build artifacts
 bin/
 dist/

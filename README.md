@@ -1,6 +1,18 @@
-# GoZilla
+<div align="center" >
+  <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+  <h1>GoZilla</h1>
+  <img src=".github/images/gozilla-logo.png" alt="GoZilla Logo" width="30" />
 
-> Generate production-ready Go projects with Clean Architecture in seconds
+  </div>
+  <p><strong>Generate production-ready Go projects with Clean Architecture in seconds</strong></p>
+
+[![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go)](https://go.dev/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+</div>
+
+---
 
 ## 🚧 Work in Progress
 
@@ -124,6 +136,7 @@ make run
 Your API is now running at `http://localhost:8080`
 
 Test the health endpoint:
+
 ```bash
 curl http://localhost:8080/api/v1/health
 ```
@@ -135,6 +148,7 @@ gozilla generate module users
 ```
 
 This creates a complete CRUD module with:
+
 - Domain entities and repository interface
 - Use cases (Create, Get, List, Update, Delete)
 - HTTP handlers and routes
