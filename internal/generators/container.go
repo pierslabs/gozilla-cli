@@ -9,6 +9,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	templates "github.com/pierslabs/gozilla/internal/templates/module"
 )
 
 type ContainerUpdater struct{}
@@ -29,7 +31,7 @@ func (u *ContainerUpdater) AddModule(moduleName string) error {
 
 	moduleNameTitle := strings.Title(moduleName)
 	moduleVarName := moduleNameTitle + "Module"
-	moduleImportPath := fmt.Sprintf("%s/internal/modules/%s", getModulePath(), moduleName)
+	moduleImportPath := fmt.Sprintf("%s/internal/modules/%s", templates.GetModulePath(), moduleName)
 
 	// Add import
 	u.addImport(file, moduleName, moduleImportPath)
@@ -85,7 +87,7 @@ func (u *ContainerUpdater) addImport(file *ast.File, alias, path string) {
 	if importDecl == nil {
 		// Create new import declaration
 		importDecl = &ast.GenDecl{
-			Tok: token.IMPORT,
+			Tok:   token.IMPORT,
 			Specs: []ast.Spec{},
 		}
 		file.Decls = append([]ast.Decl{importDecl}, file.Decls...)
