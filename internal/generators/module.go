@@ -14,12 +14,12 @@ func NewModuleGenerator() *ModuleGenerator {
 }
 
 type ModuleData struct {
-	ModuleName         string
-	ModuleNameTitle    string
-	ModuleNameUpper    string
-	EntityName         string
-	EntityNamePlural   string
-	Dependencies       []string
+	ModuleName       string
+	ModuleNameTitle  string
+	ModuleNameUpper  string
+	EntityName       string
+	EntityNamePlural string
+	Dependencies     []string
 }
 
 func (g *ModuleGenerator) Generate(moduleName string, dependencies []string) error {
@@ -87,8 +87,8 @@ func (g *ModuleGenerator) generateFiles(moduleDir string, data ModuleData) error
 		filepath.Join(moduleDir, "domain", "errors.go"):                                      g.errorsTemplate(data),
 
 		// Application layer
-		filepath.Join(moduleDir, "application", "dto", fmt.Sprintf("create_%s_dto.go", data.ModuleName)): g.createDTOTemplate(data),
-		filepath.Join(moduleDir, "application", "dto", fmt.Sprintf("update_%s_dto.go", data.ModuleName)): g.updateDTOTemplate(data),
+		filepath.Join(moduleDir, "application", "dto", fmt.Sprintf("create_%s_dto.go", data.ModuleName)):  g.createDTOTemplate(data),
+		filepath.Join(moduleDir, "application", "dto", fmt.Sprintf("update_%s_dto.go", data.ModuleName)):  g.updateDTOTemplate(data),
 		filepath.Join(moduleDir, "application", "usecases", fmt.Sprintf("create_%s.go", data.ModuleName)): g.createUseCaseTemplate(data),
 		filepath.Join(moduleDir, "application", "usecases", fmt.Sprintf("get_%s.go", data.ModuleName)):    g.getUseCaseTemplate(data),
 		filepath.Join(moduleDir, "application", "usecases", fmt.Sprintf("list_%s.go", data.ModuleName)):   g.listUseCaseTemplate(data),
@@ -96,8 +96,8 @@ func (g *ModuleGenerator) generateFiles(moduleDir string, data ModuleData) error
 		filepath.Join(moduleDir, "application", "usecases", fmt.Sprintf("delete_%s.go", data.ModuleName)): g.deleteUseCaseTemplate(data),
 
 		// Infrastructure layer
-		filepath.Join(moduleDir, "infra", "handler.go"):                                  g.handlerTemplate(data),
-		filepath.Join(moduleDir, "infra", "routes.go"):                                   g.routesTemplate(data),
+		filepath.Join(moduleDir, "infra", "handler.go"):                                     g.handlerTemplate(data),
+		filepath.Join(moduleDir, "infra", "routes.go"):                                      g.routesTemplate(data),
 		filepath.Join(moduleDir, "infra", fmt.Sprintf("%s_repository.go", data.ModuleName)): g.repositoryImplTemplate(data),
 	}
 
@@ -147,16 +147,16 @@ func (m *%sModule) RegisterRoutes(r *gin.RouterGroup) {
 	infra.RegisterRoutes(r, m.Handler)
 }
 `, data.ModuleName,
-   getModulePath(), data.ModuleName,
-   getModulePath(), data.ModuleName,
-   data.ModuleNameTitle, data.ModuleNameTitle,
-   data.ModuleNameTitle, data.ModuleNameTitle,
-   data.ModuleNameTitle,
-   data.EntityName, data.EntityName, data.ModuleNameTitle,
-   data.EntityName, data.EntityName,
-   data.ModuleNameTitle,
-   data.ModuleNameTitle,
-   data.ModuleNameTitle)
+		getModulePath(), data.ModuleName,
+		getModulePath(), data.ModuleName,
+		data.ModuleNameTitle, data.ModuleNameTitle,
+		data.ModuleNameTitle, data.ModuleNameTitle,
+		data.ModuleNameTitle,
+		data.EntityName, data.EntityName, data.ModuleNameTitle,
+		data.EntityName, data.EntityName,
+		data.ModuleNameTitle,
+		data.ModuleNameTitle,
+		data.ModuleNameTitle)
 }
 
 func (g *ModuleGenerator) entityTemplate(data ModuleData) string {
@@ -165,10 +165,10 @@ func (g *ModuleGenerator) entityTemplate(data ModuleData) string {
 import "time"
 
 type %s struct {
-	ID        int64     ` + "`json:\"id\"`" + `
-	Name      string    ` + "`json:\"name\"`" + `
-	CreatedAt time.Time ` + "`json:\"created_at\"`" + `
-	UpdatedAt time.Time ` + "`json:\"updated_at\"`" + `
+	ID        int64     `+"`json:\"id\"`"+`
+	Name      string    `+"`json:\"name\"`"+`
+	CreatedAt time.Time `+"`json:\"created_at\"`"+`
+	UpdatedAt time.Time `+"`json:\"updated_at\"`"+`
 }
 `, data.EntityName)
 }
@@ -186,9 +186,9 @@ type %sRepository interface {
 	Delete(ctx context.Context, id int64) error
 }
 `, data.EntityName,
-   strings.ToLower(data.EntityName[:1]), data.EntityName,
-   data.EntityName, data.EntityName,
-   strings.ToLower(data.EntityName[:1]), data.EntityName)
+		strings.ToLower(data.EntityName[:1]), data.EntityName,
+		data.EntityName, data.EntityName,
+		strings.ToLower(data.EntityName[:1]), data.EntityName)
 }
 
 func (g *ModuleGenerator) errorsTemplate(data ModuleData) string {
@@ -202,15 +202,15 @@ var (
 	ErrInvalid%s = errors.New("invalid %s data")
 )
 `, data.EntityName, strings.ToLower(data.ModuleName),
-   data.EntityName, strings.ToLower(data.ModuleName),
-   data.EntityName, strings.ToLower(data.ModuleName))
+		data.EntityName, strings.ToLower(data.ModuleName),
+		data.EntityName, strings.ToLower(data.ModuleName))
 }
 
 func (g *ModuleGenerator) createDTOTemplate(data ModuleData) string {
 	return fmt.Sprintf(`package dto
 
 type Create%sDTO struct {
-	Name string ` + "`json:\"name\" binding:\"required\"`" + `
+	Name string `+"`json:\"name\" binding:\"required\"`"+`
 }
 `, data.EntityName)
 }
@@ -219,7 +219,7 @@ func (g *ModuleGenerator) updateDTOTemplate(data ModuleData) string {
 	return fmt.Sprintf(`package dto
 
 type Update%sDTO struct {
-	Name string ` + "`json:\"name\"`" + `
+	Name string `+"`json:\"name\"`"+`
 }
 `, data.EntityName)
 }
@@ -260,13 +260,13 @@ func (uc *Create%sUseCase) Execute(ctx context.Context, input dto.Create%sDTO) (
 	return %s, nil
 }
 `, getModulePath(), data.ModuleName, getModulePath(), data.ModuleName,
-   data.EntityName, data.EntityName,
-   data.EntityName, data.EntityName, data.EntityName,
-   data.EntityName,
-   data.EntityName, data.EntityName, data.EntityName,
-   entityVar, data.EntityName,
-   entityVar,
-   entityVar)
+		data.EntityName, data.EntityName,
+		data.EntityName, data.EntityName, data.EntityName,
+		data.EntityName,
+		data.EntityName, data.EntityName, data.EntityName,
+		entityVar, data.EntityName,
+		entityVar,
+		entityVar)
 }
 
 func (g *ModuleGenerator) getUseCaseTemplate(data ModuleData) string {
@@ -292,10 +292,10 @@ func (uc *Get%sUseCase) Execute(ctx context.Context, id int64) (*domain.%s, erro
 	return uc.repo.GetByID(ctx, id)
 }
 `, getModulePath(), data.ModuleName,
-   data.EntityName, data.EntityName,
-   data.EntityName, data.EntityName, data.EntityName,
-   data.EntityName,
-   data.EntityName, data.EntityName)
+		data.EntityName, data.EntityName,
+		data.EntityName, data.EntityName, data.EntityName,
+		data.EntityName,
+		data.EntityName, data.EntityName)
 }
 
 func (g *ModuleGenerator) listUseCaseTemplate(data ModuleData) string {
@@ -321,10 +321,10 @@ func (uc *List%sUseCase) Execute(ctx context.Context) ([]*domain.%s, error) {
 	return uc.repo.List(ctx)
 }
 `, getModulePath(), data.ModuleName,
-   data.ModuleNameTitle, data.EntityName,
-   data.ModuleNameTitle, data.EntityName, data.ModuleNameTitle,
-   data.ModuleNameTitle,
-   data.ModuleNameTitle, data.EntityName)
+		data.ModuleNameTitle, data.EntityName,
+		data.ModuleNameTitle, data.EntityName, data.ModuleNameTitle,
+		data.ModuleNameTitle,
+		data.ModuleNameTitle, data.EntityName)
 }
 
 func (g *ModuleGenerator) updateUseCaseTemplate(data ModuleData) string {
@@ -366,15 +366,15 @@ func (uc *Update%sUseCase) Execute(ctx context.Context, id int64, input dto.Upda
 	return %s, nil
 }
 `, getModulePath(), data.ModuleName, getModulePath(), data.ModuleName,
-   data.EntityName, data.EntityName,
-   data.EntityName, data.EntityName, data.EntityName,
-   data.EntityName,
-   data.EntityName, data.EntityName, data.EntityName,
-   strings.ToLower(data.EntityName[:1]),
-   strings.ToLower(data.EntityName[:1]),
-   strings.ToLower(data.EntityName[:1]),
-   strings.ToLower(data.EntityName[:1]),
-   strings.ToLower(data.EntityName[:1]))
+		data.EntityName, data.EntityName,
+		data.EntityName, data.EntityName, data.EntityName,
+		data.EntityName,
+		data.EntityName, data.EntityName, data.EntityName,
+		strings.ToLower(data.EntityName[:1]),
+		strings.ToLower(data.EntityName[:1]),
+		strings.ToLower(data.EntityName[:1]),
+		strings.ToLower(data.EntityName[:1]),
+		strings.ToLower(data.EntityName[:1]))
 }
 
 func (g *ModuleGenerator) deleteUseCaseTemplate(data ModuleData) string {
@@ -400,10 +400,10 @@ func (uc *Delete%sUseCase) Execute(ctx context.Context, id int64) error {
 	return uc.repo.Delete(ctx, id)
 }
 `, getModulePath(), data.ModuleName,
-   data.EntityName, data.EntityName,
-   data.EntityName, data.EntityName, data.EntityName,
-   data.EntityName,
-   data.EntityName)
+		data.EntityName, data.EntityName,
+		data.EntityName, data.EntityName, data.EntityName,
+		data.EntityName,
+		data.EntityName)
 }
 
 func (g *ModuleGenerator) handlerTemplate(data ModuleData) string {
@@ -521,23 +521,23 @@ func (h *%sHandler) Delete(c *gin.Context) {
 	c.JSON(http.StatusNoContent, nil)
 }
 `, getModulePath(), data.ModuleName, getModulePath(), data.ModuleName,
-   data.ModuleNameTitle,
-   data.EntityName, data.EntityName, data.ModuleNameTitle,
-   data.EntityName, data.EntityName,
-   data.ModuleNameTitle,
-   data.EntityName, data.EntityName, data.ModuleNameTitle,
-   data.EntityName, data.EntityName,
-   data.ModuleNameTitle, data.ModuleNameTitle,
-   data.ModuleNameTitle, data.EntityName,
-   strings.ToLower(data.ModuleName), strings.ToLower(data.ModuleName),
-   data.ModuleNameTitle,
-   strings.ToLower(data.ModuleName), strings.ToLower(data.ModuleName),
-   data.ModuleNameTitle,
-   data.ModuleName, data.ModuleName,
-   data.ModuleNameTitle,
-   data.EntityName,
-   strings.ToLower(data.ModuleName), strings.ToLower(data.ModuleName),
-   data.ModuleNameTitle)
+		data.ModuleNameTitle,
+		data.EntityName, data.EntityName, data.ModuleNameTitle,
+		data.EntityName, data.EntityName,
+		data.ModuleNameTitle,
+		data.EntityName, data.EntityName, data.ModuleNameTitle,
+		data.EntityName, data.EntityName,
+		data.ModuleNameTitle, data.ModuleNameTitle,
+		data.ModuleNameTitle, data.EntityName,
+		strings.ToLower(data.ModuleName), strings.ToLower(data.ModuleName),
+		data.ModuleNameTitle,
+		strings.ToLower(data.ModuleName), strings.ToLower(data.ModuleName),
+		data.ModuleNameTitle,
+		data.ModuleName, data.ModuleName,
+		data.ModuleNameTitle,
+		data.EntityName,
+		strings.ToLower(data.ModuleName), strings.ToLower(data.ModuleName),
+		data.ModuleNameTitle)
 }
 
 func (g *ModuleGenerator) routesTemplate(data ModuleData) string {
@@ -556,9 +556,9 @@ func RegisterRoutes(r *gin.RouterGroup, handler *%sHandler) {
 	}
 }
 `, data.ModuleNameTitle,
-   data.ModuleName, data.ModuleName,
-   data.ModuleName, data.ModuleName, data.ModuleName,
-   data.ModuleName, data.ModuleName)
+		data.ModuleName, data.ModuleName,
+		data.ModuleName, data.ModuleName, data.ModuleName,
+		data.ModuleName, data.ModuleName)
 }
 
 func (g *ModuleGenerator) repositoryImplTemplate(data ModuleData) string {
@@ -583,11 +583,11 @@ func New%sRepository(db *sql.DB) *%sRepository {
 }
 
 func (r *%sRepository) Create(ctx context.Context, %s *domain.%s) error {
-	query := ` + "`" + `
+	query := `+"`"+`
 		INSERT INTO %s (name, created_at, updated_at)
 		VALUES ($1, $2, $3)
 		RETURNING id
-	` + "`" + `
+	`+"`"+`
 
 	err := r.db.QueryRowContext(
 		ctx,
@@ -601,11 +601,11 @@ func (r *%sRepository) Create(ctx context.Context, %s *domain.%s) error {
 }
 
 func (r *%sRepository) GetByID(ctx context.Context, id int64) (*domain.%s, error) {
-	query := ` + "`" + `
+	query := `+"`"+`
 		SELECT id, name, created_at, updated_at
 		FROM %s
 		WHERE id = $1
-	` + "`" + `
+	`+"`"+`
 
 	%s := &domain.%s{}
 	err := r.db.QueryRowContext(ctx, query, id).Scan(
@@ -627,11 +627,11 @@ func (r *%sRepository) GetByID(ctx context.Context, id int64) (*domain.%s, error
 }
 
 func (r *%sRepository) List(ctx context.Context) ([]*domain.%s, error) {
-	query := ` + "`" + `
+	query := `+"`"+`
 		SELECT id, name, created_at, updated_at
 		FROM %s
 		ORDER BY created_at DESC
-	` + "`" + `
+	`+"`"+`
 
 	rows, err := r.db.QueryContext(ctx, query)
 	if err != nil {
@@ -657,11 +657,11 @@ func (r *%sRepository) List(ctx context.Context) ([]*domain.%s, error) {
 }
 
 func (r *%sRepository) Update(ctx context.Context, %s *domain.%s) error {
-	query := ` + "`" + `
+	query := `+"`"+`
 		UPDATE %s
 		SET name = $1, updated_at = $2
 		WHERE id = $3
-	` + "`" + `
+	`+"`"+`
 
 	_, err := r.db.ExecContext(
 		ctx,
@@ -675,34 +675,34 @@ func (r *%sRepository) Update(ctx context.Context, %s *domain.%s) error {
 }
 
 func (r *%sRepository) Delete(ctx context.Context, id int64) error {
-	query := ` + "`DELETE FROM %s WHERE id = $1`" + `
+	query := `+"`DELETE FROM %s WHERE id = $1`"+`
 	_, err := r.db.ExecContext(ctx, query, id)
 	return err
 }
 `, getModulePath(), data.ModuleName,
-   data.EntityName,
-   data.EntityName, data.EntityName,
-   data.EntityName,
-   data.EntityName, entityVar, data.EntityName,
-   data.ModuleName,
-   entityVar, entityVar, entityVar, entityVar,
-   data.EntityName, data.EntityName,
-   data.ModuleName,
-   entityVar, data.EntityName,
-   entityVar, entityVar, entityVar, entityVar,
-   data.EntityName,
-   entityVar,
-   data.EntityName, data.EntityName,
-   data.ModuleName,
-   data.ModuleName, data.EntityName,
-   entityVar, data.EntityName,
-   entityVar, entityVar, entityVar, entityVar,
-   data.ModuleName, data.ModuleName, entityVar,
-   data.ModuleName,
-   data.EntityName, entityVar, data.EntityName,
-   data.ModuleName,
-   entityVar, entityVar, entityVar,
-   data.EntityName, data.ModuleName)
+		data.EntityName,
+		data.EntityName, data.EntityName,
+		data.EntityName,
+		data.EntityName, entityVar, data.EntityName,
+		data.ModuleName,
+		entityVar, entityVar, entityVar, entityVar,
+		data.EntityName, data.EntityName,
+		data.ModuleName,
+		entityVar, data.EntityName,
+		entityVar, entityVar, entityVar, entityVar,
+		data.EntityName,
+		entityVar,
+		data.EntityName, data.EntityName,
+		data.ModuleName,
+		data.ModuleName, data.EntityName,
+		entityVar, data.EntityName,
+		entityVar, entityVar, entityVar, entityVar,
+		data.ModuleName, data.ModuleName, entityVar,
+		data.ModuleName,
+		data.EntityName, entityVar, data.EntityName,
+		data.ModuleName,
+		entityVar, entityVar, entityVar,
+		data.EntityName, data.ModuleName)
 }
 
 // Helper function to get module path from go.mod

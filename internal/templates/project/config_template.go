@@ -4,7 +4,6 @@ func ConfigTemplate(data ProjectData) string {
 	return `package config
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
