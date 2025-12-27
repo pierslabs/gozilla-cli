@@ -56,6 +56,12 @@ func runNew(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("failed to generate project: %w", err)
 	}
 
+	// install dependencies
+	fmt.Printf("📦 Installing dependencies...\n")
+	if err := generator.InstallDependencies(projectDir); err != nil {
+		return fmt.Errorf("failed to install dependencies: %w", err)
+	}
+
 	fmt.Printf("\n✅ Project created successfully!\n\n")
 	fmt.Printf("Next steps:\n")
 	fmt.Printf("  cd %s\n", projectDir)

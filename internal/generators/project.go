@@ -3,6 +3,7 @@ package generators
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 
 	templates "github.com/pierslabs/gozilla/internal/templates/project"
@@ -17,7 +18,7 @@ func NewProjectGenerator() *ProjectGenerator {
 func (g *ProjectGenerator) Generate(projectName, projectDir string) error {
 	data := templates.ProjectData{
 		ProjectName: projectName,
-		ModulePath:  fmt.Sprintf("github.com/yourusername/%s", projectName),
+		ModulePath:  projectName,
 		ProjectDir:  projectDir,
 	}
 
@@ -114,4 +115,14 @@ require (
 `, modulePath)
 
 	return os.WriteFile(goModPath, []byte(content), 0644)
+}
+
+func (g *ProjectGenerator) InstallDependencies(projectDir string) error {
+	cmd := exec.Command("go", "mod", "tidy")
+	cmd.Dir = projectDir
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("failed to install dependencies: %w\n%s", err, string(output))
+	}
+	return nil
 }
