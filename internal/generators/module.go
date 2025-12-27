@@ -151,7 +151,7 @@ func (m *%sModule) RegisterRoutes(r *gin.RouterGroup) {
 		getModulePath(), data.ModuleName,
 		data.ModuleNameTitle, data.ModuleNameTitle,
 		data.ModuleNameTitle, data.ModuleNameTitle,
-		data.ModuleNameTitle,
+		data.EntityName,
 		data.EntityName, data.EntityName, data.ModuleNameTitle,
 		data.EntityName, data.EntityName,
 		data.ModuleNameTitle,
