@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/pierslabs/gozilla/internal/commands/generate"
+	"github.com/pierslabs/gozilla-cli/internal/commands/generate"
 	"github.com/spf13/cobra"
 )
 

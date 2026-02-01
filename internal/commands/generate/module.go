@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/pierslabs/gozilla/internal/generators"
+	"github.com/pierslabs/gozilla-cli/internal/generators"
 	"github.com/spf13/cobra"
 )
 

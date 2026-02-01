@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/pierslabs/gozilla/internal/commands"
+	"github.com/pierslabs/gozilla-cli/internal/commands"
 )
 
 func main() {

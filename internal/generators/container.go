@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	templates "github.com/pierslabs/gozilla/internal/templates/module"
+	templates "github.com/pierslabs/gozilla-cli/internal/templates/module"
 )
 
 type ContainerUpdater struct{}

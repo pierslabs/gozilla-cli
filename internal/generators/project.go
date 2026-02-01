@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	templates "github.com/pierslabs/gozilla/internal/templates/project"
+	templates "github.com/pierslabs/gozilla-cli/internal/templates/project"
 )
 
 type ProjectGenerator struct{}

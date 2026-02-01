@@ -1,4 +1,4 @@
-module github.com/pierslabs/gozilla
+module github.com/pierslabs/gozilla-cli
 
 go 1.25.3
 
